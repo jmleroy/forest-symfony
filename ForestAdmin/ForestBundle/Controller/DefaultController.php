@@ -17,11 +17,11 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
 
 //        $database_name = 'database_name';
-//
-//        $metadata = array();
-//        foreach($em->getMetadataFactory()->getAllMetadata() as $cm) {
-//            $metadata[str_replace('\\', '_', $cm->getName())] = $cm;
-//        }
+
+        $metadata = array();
+        foreach($em->getMetadataFactory()->getAllMetadata() as $cm) {
+            $metadata[str_replace('\\', '_', $cm->getName())] = $cm;
+        }
 
 //        $metaFilename = '/var/www/projects/liana/tests/drapo-metadata';
 //        $fs = new \Symfony\Component\Filesystem\Filesystem();
@@ -29,6 +29,9 @@ class DefaultController extends Controller
 //        file_put_contents($metaFilename, serialize($metadata));
 
 
-        return new Response("index forestbundle");
+        return new Response($this->render('index.html.twig', array(
+            'em' => $em,
+            'metadata' => $metadata,
+        )));
     }
 }
