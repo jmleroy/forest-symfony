@@ -1,5 +1,5 @@
 {
-    "name": "ForestAdmin/forest-symfony",
+    "name": "forestadmin/forest-symfony",
     "description": "Symfony Bundle for connecting Forest Admin software",
     "type": "symfony-bundle",
     "license": "GNU GPLv3",
@@ -24,7 +24,7 @@
     },
     "autoload": {
         "psr-4": {
-            "ForestAdmin\\ForestBundle\\": "ForestAdmin/ForestBundle"
+            "ForestAdmin\\ForestBundle\\": ""
         }
     }
 }
