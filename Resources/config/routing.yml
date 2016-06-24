@@ -1,6 +1,3 @@
-forestadmin_forest:
-    resource: '@ForestAdminForestBundle/Controller'
-    prefix:    /forest
 forestadmin_forest_homepage:
     path:     /
-    defaults: { _controller: ForestAdminForestBundle:Default:index }
+    defaults: { _controller: ForestBundle:Default:index }

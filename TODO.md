@@ -3,6 +3,6 @@
 in registerBundles(), for dev and test environments only :
 
 ```php
-            $bundles[] = new ForestAdmin\ForestBundle\ForestBundle();
+            $bundles[] = new ForestAdmin\ForestBundle\ForestAdminForestBundle();
 ```
 

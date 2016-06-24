@@ -1,0 +1,4 @@
+services:
+#    forest.example:
+#        class: ForestAdmin\ForestBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]

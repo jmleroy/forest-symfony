@@ -29,7 +29,7 @@ class DefaultController extends Controller
 //        file_put_contents($metaFilename, serialize($metadata));
 
 
-        return new Response($this->render('index.html.twig', array(
+        return new Response($this->render('ForestBundle:Default:index.html.twig', array(
             'em' => $em,
             'metadata' => $metadata,
         )));
