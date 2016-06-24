@@ -1,0 +1,3 @@
+forest_homepage:
+    path:     /forest
+    defaults: { _controller: ForestAdminForestBundle:Default:index }
