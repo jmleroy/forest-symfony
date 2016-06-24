@@ -10,6 +10,7 @@ in app/routing.yml, add :
 
 ```yaml
 forestadmin_forest:
-    resource: '@ForestBundle/Controller'
+    resource: '@ForestBundle/Controller/'
     prefix:    /forest
+    type:      annotation
 ```

@@ -5,9 +5,15 @@ namespace ForestAdmin\ForestBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\DBAL\DriverManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class DefaultController extends Controller
 {
+    /**
+     * @Route("/")
+     * 
+     * @return Response
+     */
     public function indexAction()
     {
         //$connection = $this->getDoctrine()->getConnection();
