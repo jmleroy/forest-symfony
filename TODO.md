@@ -1,8 +1,15 @@
 ## AppKernel.php
 
-in registerBundles(), for dev and test environments only :
+in registerBundles(), add :
 
 ```php
-            $bundles[] = new ForestAdmin\ForestBundle\ForestAdminForestBundle();
+            new ForestAdmin\ForestBundle\ForestAdminForestBundle();
 ```
 
+in app/routing.yml, add :
+
+```yaml
+forestadmin_forest:
+    resource: '@ForestBundle/Controller'
+    prefix:    /forest
+```
