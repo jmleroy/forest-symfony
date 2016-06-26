@@ -2,10 +2,9 @@
 
 namespace ForestAdmin\ForestBundle\Controller;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
+//use Doctrine\Bundle\DoctrineBundle\Registry;
 use ForestAdmin\Liana\Analyzer\DoctrineAnalyzer;
 use ForestAdmin\Liana\Model\Collection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  * Class DefaultController is the ForestAdmin ORM Analyzing Service
  * @package ForestAdmin\ForestBundle\Controller
  */
-class DefaultController extends Controller
+class DefaultController extends ForestAdminController
 {
     /**
      * @var Collection[]
@@ -24,18 +23,8 @@ class DefaultController extends Controller
     protected $apimap;
 
     /**
-     * @var string
-     */
-    protected $cacheDir;
-
-    public function __construct()
-    {
-        $this->cacheDir = $this->container->getParameter('kernel.cache_dir') . DIRECTORY_SEPARATOR . 'forestadmin' . DIRECTORY_SEPARATOR;
-    }
-
-    /**
      * @Route("/")
-     * @param Registry $ormService
+     * @ param Registry $ormService
      */
     public function indexAction()//(Registry $ormService)
     {
@@ -55,12 +44,12 @@ class DefaultController extends Controller
         if(!$fs->exists($apimapFilename)) {
             $fs->mkdir(dirname($apimapFilename)); // throws IOException if not possible
             $apimap = $this->getApimapFromAnalyzer();
-            file_put_contents($apimapFilename, $apimap);
+            file_put_contents($apimapFilename, serialize($apimap));
 
             return $apimap;
         }
 
-        return file_get_contents($apimapFilename);
+        return unserialize(file_get_contents($apimapFilename));
     }
 
     /**
