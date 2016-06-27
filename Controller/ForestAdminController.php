@@ -23,6 +23,11 @@ abstract class ForestAdminController extends Controller
         return $this->container->getParameter('kernel.cache_dir') . DIRECTORY_SEPARATOR . 'forestadmin' . DIRECTORY_SEPARATOR;
     }
 
+    protected function getApimapUri()
+    {
+        return $this->container->getParameter('forestadmin.apimap_server_uri');
+    }
+
     /**
      * @return Collection[]
      */

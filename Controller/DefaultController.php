@@ -34,16 +34,15 @@ class DefaultController extends ForestAdminController
     {
         $apimap = $this->getApimap();
         $map = new Map($apimap);
-        $url = "https://forestadmin-server.herokuapp.com/forest/apimaps";
         $options = array(
             'headers' => array(
                 'Content-Type' => 'application/json',
-                'forest-secret-key' => '0f4d2dca79f091173c009d3d1e365f3fe5ca465e26e960de6f539590cf6c1279',
+                'forest-secret-key' => $this->container->getParameter('forestadmin.secretkey'),
             ),
             'body' => $map,
         );
         $client = new Client;
-        $request = new Request('POST', $url, $options);
+        $request = new Request('POST', $this->getApimapUri(), $options);
         $promise = $client->send($request);
 //        Async($request)->then(function ($response) {
 //            echo 'I completed! ' . $response->getBody();

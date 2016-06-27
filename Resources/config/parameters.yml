@@ -1,0 +1,2 @@
+parameters:
+    forestadmin.apimap_server_uri: "https://forestadmin-server.herokuapp.com/forest/apimaps"
