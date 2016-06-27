@@ -70,7 +70,6 @@ class ForestController extends Controller
         }
 
         return new Response($this->render('ForestBundle:Default:index.html.twig', array(
-            'em' => $em,
             'apimap' => $apimap,
             'metadata' => $metadata,
         )));

@@ -4,16 +4,6 @@
     <p class="lead">Test pour le développement du Bundle destiné à ForestAdmin</p>
 </div>
 <div class="forest">
-{#
-    <h2>listTables</h2>
-    {{ dump(sm.listTables(database_name)|slice(0,5)) }}
-
-    <h2>listTableForeignKeys</h2>
-    {% for table in sm.listTables(database_name) %}
-    <h3>{{ table.name }}</h3>
-    {{ dump(sm.listTableForeignKeys(table.name)) }}
-    {% endfor %}
-    #}
     {{ dump(metadata) }}
     {{ dump(metadata['AppBundle_Entity_Billing']) }}
     {{ dump(metadata['AppBundle_Entity_User']) }}
