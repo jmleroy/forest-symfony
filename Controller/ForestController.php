@@ -10,10 +10,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
- * Class DefaultController is the ForestAdmin ORM Analyzing Service
+ * Class ForestController is the ForestAdmin ORM Analyzing Service
  * @package ForestAdmin\ForestBundle\Controller
  */
-class DefaultController extends ForestAdminController
+class ForestController extends ForestAdminController
 {
     /**
      * @Route("/")
@@ -32,23 +32,10 @@ class DefaultController extends ForestAdminController
      */
     public function postAction()
     {
-        $apimap = $this->getApimap();
-        $map = new Map($apimap);
-        $options = array(
-            'headers' => array(
-                'Content-Type' => 'application/json',
-                'forest-secret-key' => $this->container->getParameter('forestadmin.secretkey'),
-            ),
-            'body' => $map,
-        );
-        $client = new Client;
-        $request = new Request('POST', $this->getApimapUri(), $options);
-        $promise = $client->send($request);
-//        Async($request)->then(function ($response) {
-//            echo 'I completed! ' . $response->getBody();
-//        });
-//        $promise->wait();
-//        return new JsonResponse($promise);
+        $forest = $this->get('forestadmin.forest');
+        $forest->postApimap();
+        
+        return new Response('posted');
     }
 
     /**

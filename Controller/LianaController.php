@@ -2,9 +2,8 @@
 
 namespace ForestAdmin\ForestBundle\Controller;
 
-use ForestAdmin\Liana\Api\QueryService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class LianaController extends ForestAdminController
 {
@@ -16,13 +15,13 @@ class LianaController extends ForestAdminController
      */
     public function getResource($modelName, $recordId)
     {
-        $qs = $this->get('forest.query', $this->getApimap());
+        $qs = $this->get('forestadmin.liana', array($this->getDoctrine(), $this->getApimap()));
         
         return new JsonResponse(
             array('ok' => $qs->getResource($modelName, $recordId))
         //"Found model for name '{$modelName}' : {$collection->entityClassName}")
         );
 
-        return new JsonResponse(array('error' => "There is no model of name '{$modelName}' or with record ID {$recordId}."));
+        //return new JsonResponse(array('error' => "There is no model of name '{$modelName}' or with record ID {$recordId}."));
     }
 }

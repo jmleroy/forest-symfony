@@ -1,6 +1,11 @@
 services:
-    forest.query:
-        class: ForestAdmin\ForestBundle\Query\QueryService
+    forestadmin.forest:
+        class: ForestAdmin\ForestBundle\Service\ForestService
         arguments:
+            - "@container"
             - "@doctrine"
+    forestadmin.liana:
+        class: ForestAdmin\ForestBundle\Service\LianaService
+        arguments:
             - collections
+            - "@doctrine"

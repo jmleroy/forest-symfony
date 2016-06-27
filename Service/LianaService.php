@@ -1,12 +1,12 @@
 <?php
 
-namespace ForestAdmin\ForestBundle\Query;
+namespace ForestAdmin\ForestBundle\Service;
 
 use ForestAdmin\Liana\Api\DoctrineProxy;
 use ForestAdmin\Liana\Api\RepositoryFactory;
 use ForestAdmin\Liana\Model\Collection;
 
-class QueryService
+class LianaService
 {
     /**
      * At this moment, only Doctrine service
@@ -19,7 +19,12 @@ class QueryService
      */
     protected $collections;
 
-    public function __construct($orm, $collections)
+    /**
+     * LianaService constructor.
+     * @param Collections[] $collections
+     * @param $orm
+     */
+    public function __construct($collections, $orm)
     {
         $this->setOrm($orm);
         $this->setCollections($collections);
@@ -126,7 +131,7 @@ class QueryService
      * @param $entityName
      * @return null|string
      */
-    public function findEntityInCollections($entityName)
+    protected function findEntityInCollections($entityName)
     {
         foreach($this->getCollections() as $collection) {
             if($collection->entityClassName == $entityName) {
