@@ -61,7 +61,8 @@ class ForestController extends Controller
     public function dumpAction()
     {
         $forest = $this->get('forestadmin.forest');
-        $apimap = $forest->getApimap();
+        $collections = $forest->getCollections();
+        $apimap = json_decode($forest->getApimap());
         $metadata = $forest->getMetadata();
         foreach($metadata as $old_key => $cm) {
             $new_key = str_replace('\\', '_', $cm->getName());
@@ -70,6 +71,7 @@ class ForestController extends Controller
         }
 
         return new Response($this->render('ForestBundle:Default:index.html.twig', array(
+            'collections' => $collections,
             'apimap' => $apimap,
             'metadata' => $metadata,
         )));
