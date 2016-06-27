@@ -6,11 +6,10 @@ namespace ForestAdmin\ForestBundle\Controller;
 use ForestAdmin\Liana\Analyzer\DoctrineAnalyzer;
 use ForestAdmin\Liana\Model\Collection;
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\DBAL\DriverManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
@@ -21,9 +20,8 @@ class DefaultController extends ForestAdminController
 {
     /**
      * @Route("/")
-     * @ param Registry $ormService
      */
-    public function indexAction()//(Registry $ormService)
+    public function indexAction()
     {
         $apimap = $this->getApimap();
 
@@ -31,12 +29,13 @@ class DefaultController extends ForestAdminController
         $url = "https://forestadmin-server.herokuapp.com/forest/apimaps";
         $options = array(
             'headers' => array(
+                'Content-Type' => 'application/json',
                 'forest-secret-key' => '0f4d2dca79f091173c009d3d1e365f3fe5ca465e26e960de6f539590cf6c1279',
             ),
             'body' => $jsonResponse,
         );
         $client = new Client;
-        $request = new \GuzzleHttp\Psr7\Request('POST', $url, $options);
+        $request = new Request('POST', $url, $options);
         $promise = $client->send($request);/*Async($request)->then(function ($response) {
             echo 'I completed! ' . $response->getBody();
         });
