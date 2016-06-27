@@ -11,18 +11,16 @@ class LianaController extends Controller
     /**
      * @Route("/{modelName}/{recordId}", requirements={"modelName" = "\w+", "recordId" = "\d+"})
      * 
-     * @param $modelName
-     * @param $recordId
+     * @param string $modelName
+     * @param int $recordId
      */
     public function getResource($modelName, $recordId)
     {
-        $qs = $this->get('forestadmin.liana', array($this->getDoctrine(), $this->getApimap()));
-        
-        return new JsonResponse(
-            array('ok' => $qs->getResource($modelName, $recordId))
-        //"Found model for name '{$modelName}' : {$collection->entityClassName}")
-        );
+        $collections = $this->get('forestadmin.forest')->getCollections();
+        $liana = $this->get('forestadmin.liana')->setCollections($collections);
 
-        //return new JsonResponse(array('error' => "There is no model of name '{$modelName}' or with record ID {$recordId}."));
+        return new JsonResponse(
+            array('ok' => $liana->getResource($modelName, $recordId))
+        );
     }
 }

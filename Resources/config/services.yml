@@ -7,5 +7,4 @@ services:
     forestadmin.liana:
         class: ForestAdmin\ForestBundle\Service\LianaService
         arguments:
-            - collections
             - "@doctrine"

@@ -21,13 +21,12 @@ class LianaService
 
     /**
      * LianaService constructor.
-     * @param Collections[] $collections
      * @param $orm
      */
-    public function __construct($collections, $orm)
+    public function __construct($orm)
     {
         $this->setOrm($orm);
-        $this->setCollections($collections);
+        $this->setCollections(array());
     }
 
     /**
@@ -105,18 +104,24 @@ class LianaService
 
     /**
      * @param Collection[] $collections
+     * @return $this
      */
     public function setCollections($collections)
     {
         $this->collections = $collections;
+        
+        return $this;
     }
 
     /**
      * @param mixed $orm
+     * @return $this
      */
     public function setOrm($orm)
     {
         $this->orm = $orm;
+        
+        return $this;
     }
 
     /**
