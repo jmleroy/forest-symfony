@@ -5,17 +5,19 @@ namespace ForestAdmin\ForestBundle\Controller;
 use ForestAdmin\Liana\Api\Map;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
- * Class ForestController is the ForestAdmin ORM Analyzing Service
+ * Class ForestController
  * @package ForestAdmin\ForestBundle\Controller
  */
-class ForestController extends ForestAdminController
+class ForestController extends Controller
 {
     /**
+     * This route is called by ForestAdmin to test if ForestBundle is properly installed
      * @Route("/")
      */
     public function indexAction()
@@ -45,11 +47,10 @@ class ForestController extends ForestAdminController
      */
     public function traceAction()
     {
-        $apimap = $this->getApimap();
+        $forest = $this->get('forestadmin.forest');
+        $apimap = $forest->getApimap();
 
-        $map = new Map($apimap);
-
-        return new Response($map->getApimap());
+        return new Response($apimap);
     }
 
     /**
@@ -59,13 +60,13 @@ class ForestController extends ForestAdminController
      */
     public function dumpAction()
     {
-        $apimap = $this->getApimap();
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $metadata = array();
-        foreach($em->getMetadataFactory()->getAllMetadata() as $cm) {
-            $metadata[str_replace('\\', '_', $cm->getName())] = $cm;
-//            $metadata[$cm->getName()] = $cm;
+        $forest = $this->get('forestadmin.forest');
+        $apimap = $forest->getApimap();
+        $metadata = $forest->getMetadata();
+        foreach($metadata as $old_key => $cm) {
+            $new_key = str_replace('\\', '_', $cm->getName());
+            $metadata[$new_key] = $cm;
+            unset($metadata[$old_key]);
         }
 
         return new Response($this->render('ForestBundle:Default:index.html.twig', array(

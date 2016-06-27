@@ -2,10 +2,11 @@
 
 namespace ForestAdmin\ForestBundle\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
-class LianaController extends ForestAdminController
+class LianaController extends Controller
 {
     /**
      * @Route("/{modelName}/{recordId}", requirements={"modelName" = "\w+", "recordId" = "\d+"})
