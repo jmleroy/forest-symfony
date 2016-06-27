@@ -50,7 +50,7 @@ class ForestController extends Controller
         $forest = $this->get('forestadmin.forest');
         $apimap = $forest->getApimap();
 
-        return new Response($apimap);
+        return new JsonResponse($apimap);
     }
 
     /**

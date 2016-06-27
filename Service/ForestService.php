@@ -54,7 +54,7 @@ class ForestService
     {
         $collections = $this->getCollections();
         $map = new Map($collections);
-        return new JsonResponse($map->getApimap());
+        return $map->getApimap();
     }
 
     /**
