@@ -18,11 +18,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class DefaultController extends ForestAdminController
 {
     /**
-     * @var Collection[]
-     */
-    protected $apimap;
-
-    /**
      * @Route("/")
      * @ param Registry $ormService
      */
@@ -30,72 +25,20 @@ class DefaultController extends ForestAdminController
     {
         $apimap = $this->getApimap();
 
-        return $this->formatResponse($apimap);
-    }
-
-    /**
-     * @return \ForestAdmin\Liana\Model\Collection[]
-     */
-    protected function getApimap()
-    {
-        $apimapFilename = $this->cacheDir . 'apimap';
-        $fs = new Filesystem;
-
-        if(!$fs->exists($apimapFilename)) {
-            $fs->mkdir(dirname($apimapFilename)); // throws IOException if not possible
-            $apimap = $this->getApimapFromAnalyzer();
-            file_put_contents($apimapFilename, serialize($apimap));
-
-            return $apimap;
-        }
-
-        return unserialize(file_get_contents($apimapFilename));
-    }
-
-    /**
-     * @return Collection[]
-     */
-    protected function getApimapFromAnalyzer()
-    {
-        //ORM Service can currently only be the Doctrine service
-        //$em = $ormService->getEntityManager();
         $em = $this->getDoctrine()->getEntityManager();
-        $analyzer = new DoctrineAnalyzer();
-        $analyzer->setEntityManager($em);
 
-        return $analyzer->analyze();
-    }
-
-    protected function getMetadata()
-    {
-        $metaFilename = $this->cacheDir . 'metadata';
-        $fs = new Filesystem;
-
-        if(!$fs->exists($metaFilename)) {
-            $fs->mkdir(dirname($metaFilename));
-            $fs->touch($metaFilename);
-            $metadata = array();
-            $em = $this->getDoctrine()->getEntityManager();
-
-            foreach($em->getMetadataFactory()->getAllMetadata() as $cm) {
-                $metadata[$cm->getName()] = $cm;
-            }
-
-            file_put_contents($metaFilename, serialize($metadata));
-
-            return $metadata;
+        $metadata = array();
+        foreach($em->getMetadataFactory()->getAllMetadata() as $cm) {
+            $metadata[str_replace('\\', '_', $cm->getName())] = $cm;
+//            $metadata[$cm->getName()] = $cm;
         }
 
-        return unserialize(file_get_contents($metaFilename));
-    }
+        return new Response($this->render('ForestBundle:Default:index.html.twig', array(
+            'em' => $em,
+            'apimap' => $apimap,
+            'metadata' => $metadata,
+        )));
 
-    /**
-     * TODO : really format as JsonApi
-     * @param Collection[] $apimap
-     * @return JsonResponse
-     */
-    protected function formatResponse($apimap)
-    {
-        return new JsonResponse($apimap);
+        //return $this->formatResponse($apimap);
     }
 }
