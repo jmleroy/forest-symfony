@@ -2,8 +2,8 @@ services:
     forestadmin.forest:
         class: ForestAdmin\ForestBundle\Service\ForestService
         arguments:
-            - "@container"
             - "@doctrine"
+            - '%kernel.cache_dir%'
     forestadmin.liana:
         class: ForestAdmin\ForestBundle\Service\LianaService
         arguments:

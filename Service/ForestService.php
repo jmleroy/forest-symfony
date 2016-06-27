@@ -17,17 +17,17 @@ class ForestService
     /**
      * @var
      */
-    protected $container;
+    protected $cacheDir;
 
     /**
      * @var
      */
     protected $orm;
     
-    public function __construct($container, $orm)
+    public function __construct($orm, $cacheDir)
     {
-        $this->setContainer($container);
         $this->setOrm($orm);
+        $this->setCacheDir($cacheDir);
     }
 
     public function postApimap()
@@ -36,7 +36,7 @@ class ForestService
         $options = array(
             'headers' => array(
                 'Content-Type' => 'application/json',
-                'forest-secret-key' => $this->getContainer()->getParameter('forestadmin.secretkey'),
+                'forest-secret-key' => $this->getSecretKey(),
             ),
             'body' => $map,
         );
@@ -147,7 +147,7 @@ class ForestService
      */
     protected function getCacheFilename($what)
     {
-        return $this->getCacheDir() . $what;
+        return $this->getCacheDirectoryName() . $what;
     }
 
     /**
@@ -159,14 +159,27 @@ class ForestService
         return unserialize(file_get_contents($this->getCacheFilename($what)));
     }
 
-    protected function getCacheDir()
+    protected function getCacheDirectoryName()
     {
-        return $this->getContainer()->getParameter('kernel.cache_dir') . DIRECTORY_SEPARATOR . 'forestadmin' . DIRECTORY_SEPARATOR;
+        return $this->getCacheDir() . DIRECTORY_SEPARATOR . 'forestadmin' . DIRECTORY_SEPARATOR;
     }
 
+    /**
+     * TODO replace these values by configuration
+     */
     protected function getApimapUri()
     {
-        return $this->getContainer()->getParameter('forestadmin.apimap_server_uri');
+        return "https://forestadmin-server.herokuapp.com/forest/apimaps";
+        //return $this->getContainer()->getParameter('forestadmin.apimap_server_uri');
+    }
+
+    /**
+     * TODO replace these values by configuration
+     */
+    protected function getSecretKey()
+    {
+        return "0f4d2dca79f091173c009d3d1e365f3fe5ca465e26e960de6f539590cf6c1279";
+        //return $this->getContainer()->getParameter('forestadmin.secretkey');
     }
 
     /**
@@ -188,16 +201,16 @@ class ForestService
     /**
      * @return mixed
      */
-    public function getContainer()
+    public function getCacheDir()
     {
-        return $this->container;
+        return $this->cacheDir;
     }
 
     /**
-     * @param mixed $container
+     * @param mixed $cacheDir
      */
-    public function setContainer($container)
+    public function setCacheDir($cacheDir)
     {
-        $this->container = $container;
+        $this->cacheDir = $cacheDir;
     }
 }
