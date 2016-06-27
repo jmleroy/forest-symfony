@@ -82,12 +82,12 @@ abstract class ForestAdminController extends Controller
     }
 
     /**
-     * TODO : really format as JsonApi
-     * @param Collection[] $apimap
+     * @param Collection[] $collections
      * @return JsonResponse
      */
-    protected function formatResponse($apimap)
+    protected function formatResponse($collections)
     {
-        return new JsonResponse($apimap);
+        $map = new Map($collections);
+        return new JsonResponse($map->getApimap());
     }
 }
