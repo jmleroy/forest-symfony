@@ -10,6 +10,7 @@ namespace ForestAdmin\ForestBundle\Controller;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
 use ForestAdmin\Liana\Analyzer\DoctrineAnalyzer;
+use ForestAdmin\Liana\Api\Map;
 use ForestAdmin\Liana\Model\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Filesystem\Filesystem;
