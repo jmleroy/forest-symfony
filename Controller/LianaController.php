@@ -15,7 +15,16 @@ class LianaController extends ForestAdminController
      */
     public function getResource($modelName, $recordId)
     {
-        
+        $apimap = $this->getApimap();
+        foreach($apimap as $collection) {
+            if($collection->name == $modelName) {
+                //$entity = new $collection->entityClassName;
+                
+                return new JsonResponse(
+                    array('ok' => "Found model for name '{$modelName}' : {$collection->entityClassName}")
+                );
+            }
+        }
         return new JsonResponse(array('error' => "There is no model of name '{$modelName}' or with record ID {$recordId}."));
     }
 }

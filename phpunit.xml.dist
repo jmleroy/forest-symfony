@@ -1,0 +1,10 @@
+<phpunit bootstrap="vendor/autoload.php">
+    <php>
+        <server name="KERNEL_DIR" value="/Users/jean-marc/Projects/forest-symfony/" />
+    </php>
+    <testsuites>
+        <testsuite name="Forest Symfony Bundle Test Suite">
+            <file>tests/LianaControllerTest.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>
