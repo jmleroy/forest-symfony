@@ -2,18 +2,17 @@
 
 namespace ForestAdmin\ForestBundle\Service;
 
-use ForestAdmin\Liana\Api\DoctrineProxy;
-use ForestAdmin\Liana\Api\RepositoryFactory;
+use ForestAdmin\Liana\Adapter\DoctrineAdapter;
 use ForestAdmin\Liana\Model\Collection;
 
 class LianaService
 {
     /**
      * At this moment, only Doctrine service
-     * @var 
+     * @var
      */
     protected $orm;
-    
+
     /**
      * @var Collection[]
      */
@@ -39,16 +38,16 @@ class LianaService
     public function getResource($modelName, $recordId)
     {
         $entityName = $this->findEntityInCollections($modelName);
-        if($entityName) {
-            $proxy = new DoctrineProxy($orm->getRepository($entityName));
-            /*
-            $repository = RepositoryFactory::get($entityName);
-            if($repository) {
-                // ici, modelName est inutile
-                $resource = $repository->getResource($recordId);
-                return $this->formatJsonApi($modelName, $resource);
-            }*/
+
+        $queryAdapter = $this->getQueryAdapter($entityName);
+        if($queryAdapter) {
+            $resource = $queryAdapter->getResource($recordId);
+            return $resource;
+            //return $this->formatJsonApi($modelName, $resource);
         }
+        /** TODO else throw CannotCreateRepositoryException */
+
+        return null;
     }
 
     /**
@@ -109,7 +108,7 @@ class LianaService
     public function setCollections($collections)
     {
         $this->collections = $collections;
-        
+
         return $this;
     }
 
@@ -120,7 +119,7 @@ class LianaService
     public function setOrm($orm)
     {
         $this->orm = $orm;
-        
+
         return $this;
     }
 
@@ -139,8 +138,8 @@ class LianaService
     protected function findEntityInCollections($entityName)
     {
         foreach($this->getCollections() as $collection) {
-            if($collection->entityClassName == $entityName) {
-                return $collection->name;
+            if($collection->name == $entityName) {
+                return $collection->entityClassName;
             }
         }
 
@@ -150,5 +149,28 @@ class LianaService
     protected function formatJsonApi($modelName, $resource)
     {
         return $resource;
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function isOrmDoctrine()
+    {
+        return get_class($this->getOrm()) == "Doctrine\\Bundle\\DoctrineBundle\\Registry";
+    }
+
+    /**
+     * @param $entityName
+     * @return DoctrineProxy|null
+     */
+    protected function getQueryAdapter($entityName)
+    {
+        $adapter = null;
+
+        if ($this->isOrmDoctrine()) {
+            $adapter = new DoctrineAdapter($this->getOrm()->getManager(), $this->getOrm()->getRepository($entityName));
+        }
+
+        return $adapter;
     }
 }
