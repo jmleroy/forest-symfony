@@ -4,6 +4,10 @@ namespace ForestAdmin\ForestBundle\Service;
 
 use ForestAdmin\Liana\Adapter\DoctrineAdapter;
 use ForestAdmin\Liana\Model\Collection;
+use ForestAdmin\Liana\Model\Resource as ForestResource;
+use ForestAdmin\Liana\Schema\ResourceSchema as ForestResourceSchema;
+use Neomerx\JsonApi\Encoder\Encoder;
+use Neomerx\JsonApi\Encoder\EncoderOptions;
 
 class LianaService
 {
@@ -17,6 +21,13 @@ class LianaService
      * @var Collection[]
      */
     protected $collections;
+
+    /**
+     * @var array
+     */
+    protected $encoderConfig = array(
+        ForestResource::class => ForestResourceSchema::class,
+    );
 
     /**
      * LianaService constructor.
@@ -37,13 +48,11 @@ class LianaService
      */
     public function getResource($modelName, $recordId)
     {
-        $entityName = $this->findEntityInCollections($modelName);
-
-        $queryAdapter = $this->getQueryAdapter($entityName);
+        $queryAdapter = $this->getQueryAdapter($modelName);
         if($queryAdapter) {
             $resource = $queryAdapter->getResource($recordId);
-            return $resource;
-            //return $this->formatJsonApi($modelName, $resource);
+
+            return $this->formatJsonApi($resource);
         }
         /** TODO else throw CannotCreateRepositoryException */
 
@@ -133,22 +142,38 @@ class LianaService
 
     /**
      * @param $entityName
-     * @return null|string
+     * @return null|Collection
      */
-    protected function findEntityInCollections($entityName)
+    protected function findCollection($entityName)
     {
         foreach($this->getCollections() as $collection) {
             if($collection->name == $entityName) {
-                return $collection->entityClassName;
+                return $collection;
             }
         }
 
         return null;
     }
 
-    protected function formatJsonApi($modelName, $resource)
+    /**
+     * @param ForestResource $forestResource
+     * @return string
+     */
+    protected function formatJsonApi($forestResource)
     {
-        return $resource;
+        $encoder = Encoder::instance(
+            $this->encoderConfig,
+            new EncoderOptions(JSON_PRETTY_PRINT, '/forest')
+        );
+        
+        $ret = $encoder->encodeData($forestResource);
+        // TODO add relationships
+        foreach($forestResource->getIncluded() as $includedResource) {
+
+        }
+        return $ret . PHP_EOL;
+        
+        return $forestResource;
     }
 
     /**
@@ -161,14 +186,21 @@ class LianaService
 
     /**
      * @param $entityName
-     * @return DoctrineProxy|null
+     * @return DoctrineAdapter|null
      */
-    protected function getQueryAdapter($entityName)
+    protected function getQueryAdapter($modelName)
     {
+        $collection = $this->findCollection($modelName);
+        $entityName = $collection->entityClassName;
         $adapter = null;
 
         if ($this->isOrmDoctrine()) {
-            $adapter = new DoctrineAdapter($this->getOrm()->getManager(), $this->getOrm()->getRepository($entityName));
+            $adapter = new DoctrineAdapter(
+                $this->getCollections(),
+                $collection,
+                $this->getOrm()->getManager(),
+                $this->getOrm()->getRepository($entityName)
+            );
         }
 
         return $adapter;
