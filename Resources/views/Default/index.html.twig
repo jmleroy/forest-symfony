@@ -7,13 +7,11 @@
     {{ dump(metadata) }}
     {{ dump(metadata['AppBundle_Entity_Billing']) }}
     {{ dump(metadata['AppBundle_Entity_User']) }}
-    {{ dump(metadata['AppBundle_Entity_Asset']) }}
-    {{ dump(metadata['AppBundle_Entity_Address']) }}
     {{ dump(metadata['AppBundle_Entity_Professional']) }}
     {{ dump(metadata['AppBundle_Entity_Skill']) }}
-    {{ dump(metadata['AppBundle_Entity_Operation']) }}
     {{ dump(collections) }}
     {{ dump(collections['AppBundle\\Entity\\User']) }}
-    {{ dump(collections['professional_skills']) }}
+    {{ dump(collections['AppBundle\\Entity\\Professional']) }}
+    {{ dump(collections['AppBundle\\Entity\\Professional'].getRelationships) }}
     {{ dump(apimap) }}
 </div>

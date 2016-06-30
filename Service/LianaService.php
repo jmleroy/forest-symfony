@@ -3,6 +3,7 @@
 namespace ForestAdmin\ForestBundle\Service;
 
 use ForestAdmin\Liana\Adapter\DoctrineAdapter;
+use ForestAdmin\Liana\Exception\CollectionNotFoundException;
 use ForestAdmin\Liana\Model\Collection;
 use ForestAdmin\Liana\Model\Resource as ForestResource;
 use ForestAdmin\Liana\Schema\ResourceSchema as ForestResourceSchema;
@@ -44,19 +45,15 @@ class LianaService
      *
      * @param string $modelName
      * @param mixed $recordId
-     * @return array
+     * @return object
+     * @throws CollectionNotFoundException
      */
     public function getResource($modelName, $recordId)
     {
         $queryAdapter = $this->getQueryAdapter($modelName);
-        if($queryAdapter) {
-            $resource = $queryAdapter->getResource($recordId);
+        $resource = $queryAdapter->getResource($recordId);
 
-            return $this->formatJsonApi($resource);
-        }
-        /** TODO else throw CannotCreateRepositoryException */
-
-        return null;
+        return $resource->formatJsonApi();
     }
 
     /**
@@ -147,33 +144,12 @@ class LianaService
     protected function findCollection($entityName)
     {
         foreach($this->getCollections() as $collection) {
-            if($collection->name == $entityName) {
+            if($collection->getName() == $entityName) {
                 return $collection;
             }
         }
 
         return null;
-    }
-
-    /**
-     * @param ForestResource $forestResource
-     * @return string
-     */
-    protected function formatJsonApi($forestResource)
-    {
-        $encoder = Encoder::instance(
-            $this->encoderConfig,
-            new EncoderOptions(JSON_PRETTY_PRINT, '/forest')
-        );
-        
-        $ret = $encoder->encodeData($forestResource);
-        // TODO add relationships
-        foreach($forestResource->getIncluded() as $includedResource) {
-
-        }
-        return $ret . PHP_EOL;
-        
-        return $forestResource;
     }
 
     /**
@@ -185,13 +161,16 @@ class LianaService
     }
 
     /**
-     * @param $entityName
+     * @param string $modelName
      * @return DoctrineAdapter|null
      */
     protected function getQueryAdapter($modelName)
     {
         $collection = $this->findCollection($modelName);
-        $entityName = $collection->entityClassName;
+        if(!$collection) {
+            throw new CollectionNotFoundException;
+        }
+        $entityName = $collection->getEntityClassName();
         $adapter = null;
 
         if ($this->isOrmDoctrine()) {
