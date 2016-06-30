@@ -52,8 +52,8 @@ class LianaService
     {
         $queryAdapter = $this->getQueryAdapter($modelName);
         $resource = $queryAdapter->getResource($recordId);
-
-        return $resource->formatJsonApi();
+        
+        return $resource;
     }
 
     /**
