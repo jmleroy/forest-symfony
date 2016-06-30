@@ -7,8 +7,6 @@ use ForestAdmin\Liana\Exception\CollectionNotFoundException;
 use ForestAdmin\Liana\Model\Collection;
 use ForestAdmin\Liana\Model\Resource as ForestResource;
 use ForestAdmin\Liana\Schema\ResourceSchema as ForestResourceSchema;
-use Neomerx\JsonApi\Encoder\Encoder;
-use Neomerx\JsonApi\Encoder\EncoderOptions;
 
 class LianaService
 {
