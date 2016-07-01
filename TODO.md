@@ -1,9 +1,33 @@
+# INSTALL
+
+## Composer
+
+From the terminal, go to the root directory of your Symfony project, and type:
+
+```
+$ composer require forestadmin/forest-symfony
+```
+
+Temporarily, you will also have to add the following repository reference to composer.json:
+
+```json
+    "repositories": [
+        {
+            "url": "https://github.com/forestadmin/forest-symfony",
+            "type": "git"
+        },{
+            "url": "https://github.com/jmleroy/forest-php",
+            "type": "git"
+        }
+    ],
+```
+
 ## AppKernel.php
 
 In registerBundles(), add:
 
 ```php
-            new ForestAdmin\ForestBundle\ForestAdminForestBundle();
+            new ForestAdmin\ForestBundle\ForestBundle();
 ```
 
 ## app/config/routing.yml
