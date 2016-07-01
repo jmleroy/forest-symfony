@@ -66,14 +66,18 @@ class LianaService
     }
 
     /**
+     * Returns the $associationName resources (hasMany relationship) of $modelName
      * @param string $modelName
      * @param mixed $recordId
      * @param string $associationName
-     * @return array The hasMany resources with one relationships and a link to their many relationships
+     * @return object The hasMany resources with its own relationships and a link to their many relationships
      */
-    public function getResourceAndRelationships($modelName, $recordId, $associationName)
+    public function getHasMany($modelName, $recordId, $associationName)
     {
+        $queryAdapter = $this->getQueryAdapter($modelName);
+        $hasMany = $queryAdapter->getHasMany($recordId, $associationName);
 
+        return $hasMany;
     }
 
     /**
