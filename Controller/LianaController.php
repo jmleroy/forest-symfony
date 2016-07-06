@@ -5,8 +5,10 @@ namespace ForestAdmin\ForestBundle\Controller;
 use ForestAdmin\Liana\Exception\NotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class LianaController extends Controller
 {
@@ -58,5 +60,54 @@ class LianaController extends Controller
         return new Response($this->render('ForestBundle:Default:liana.html.twig', array(
             'resource' => $resource,
         )));
+    }
+
+    /**
+     * @Route("/create/{modelName}", requirements={"modelName" = "\w+"})
+     * @Method({"POST"})
+     * @param string $modelName
+     * @param Request $request
+     * @return JsonResponse|Response
+     */
+    public function createResource($modelName, Request $request)
+    {
+        try {
+            $collections = $this->get('forestadmin.forest')->getCollections();
+            $liana = $this->get('forestadmin.liana')->setCollections($collections);
+            $postData = $request->request->all();
+            $resource = $liana->createResource($modelName, $postData);
+
+            return new JsonResponse($resource);
+        } catch(\Exception $exc) {
+            //if environment = dev
+            return new Response($exc->getMessage(), 400);
+            //else
+            //return new Response('Bad request', 400);
+        }
+    }
+
+    /**
+     * @Route("/update/{modelName}/{recordId}", requirements={"modelName" = "\w+", "recordId" = "\d+"})
+     * @Method({"POST"})
+     * @param string $modelName
+     * @param int $recordId
+     * @param Request $request
+     * @return JsonResponse|Response
+     */
+    public function updateResource($modelName, $recordId, Request $request)
+    {
+        try {
+            $collections = $this->get('forestadmin.forest')->getCollections();
+            $liana = $this->get('forestadmin.liana')->setCollections($collections);
+            $postData = $request->request->all();
+            $resource = $liana->updateResource($modelName, $recordId, $postData);
+
+            return new JsonResponse($resource);
+        } catch(\Exception $exc) {
+            //if environment = dev
+            return new Response($exc->getMessage());
+            //else
+            //return new Response('Bad request', 400);
+        }
     }
 }
