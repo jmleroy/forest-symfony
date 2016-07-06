@@ -14,7 +14,7 @@ class LianaController extends Controller
 {
     /**
      * @Route("/{modelName}/{recordId}", requirements={"modelName" = "\w+", "recordId" = "\d+"})
-     *
+     * @Method({"GET"})
      * @param string $modelName
      * @param int $recordId
      */
@@ -39,7 +39,7 @@ class LianaController extends Controller
 
     /**
      * @Route("/{modelName}/{recordId}/{associationName}", requirements={"modelName" = "\w+", "recordId" = "\d+", "associationName" = "\w+"})
-     *
+     * @Method({"GET"})
      * @param string $modelName
      * @param int $recordId
      * @param string $associationName
