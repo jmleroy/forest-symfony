@@ -54,7 +54,7 @@ class LianaController extends Controller
             return new Response($exc->getMessage(), 404);
         }
 
-        //return new JsonResponse($resource);
+        return new JsonResponse($resource);
 
         //Trace
         return new Response($this->render('ForestBundle:Default:liana.html.twig', array(
