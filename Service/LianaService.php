@@ -50,7 +50,7 @@ class LianaService
     {
         $queryAdapter = $this->getQueryAdapter($modelName);
         $resource = $queryAdapter->getResource($recordId);
-        
+
         return $resource;
     }
 
@@ -60,7 +60,7 @@ class LianaService
      * @param ResourceFilter $filter
      * @return array
      */
-    public function getResources($modelName, $filter)
+    public function listResources($modelName, $filter)
     {
 
     }
@@ -90,10 +90,10 @@ class LianaService
         $queryAdapter = $this->getQueryAdapter($modelName);
         $recordId = $queryAdapter->createResource($postData);
 
-        if($recordId) {
+        if ($recordId) {
             return $queryAdapter->getResource($recordId);
         }
-        
+
         return array();
     }
 
@@ -108,7 +108,7 @@ class LianaService
         $queryAdapter = $this->getQueryAdapter($modelName);
         $recordId = $queryAdapter->updateResource($recordId, $postData);
 
-        if($recordId) {
+        if ($recordId) {
             return $queryAdapter->getResource($recordId);
         }
 
@@ -159,8 +159,8 @@ class LianaService
      */
     protected function findCollection($entityName)
     {
-        foreach($this->getCollections() as $collection) {
-            if($collection->getName() == $entityName) {
+        foreach ($this->getCollections() as $collection) {
+            if ($collection->getName() == $entityName) {
                 return $collection;
             }
         }
@@ -183,7 +183,7 @@ class LianaService
     protected function getQueryAdapter($modelName)
     {
         $collection = $this->findCollection($modelName);
-        if(!$collection) {
+        if (!$collection) {
             throw new CollectionNotFoundException;
         }
         $entityName = $collection->getEntityClassName();
