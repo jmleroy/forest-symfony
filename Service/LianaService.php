@@ -88,9 +88,13 @@ class LianaService
     public function createResource($modelName, $postData)
     {
         $queryAdapter = $this->getQueryAdapter($modelName);
-        $resource = $queryAdapter->createResource($postData);
+        $recordId = $queryAdapter->createResource($postData);
 
-        return $resource;
+        if($recordId) {
+            return $queryAdapter->getResource($recordId);
+        }
+        
+        return array();
     }
 
     /**
@@ -102,9 +106,13 @@ class LianaService
     public function updateResource($modelName, $recordId, $postData)
     {
         $queryAdapter = $this->getQueryAdapter($modelName);
-        $resource = $queryAdapter->updateResource($recordId, $postData);
+        $recordId = $queryAdapter->updateResource($recordId, $postData);
 
-        return $resource;
+        if($recordId) {
+            return $queryAdapter->getResource($recordId);
+        }
+
+        return array();
     }
 
     /**
