@@ -19,6 +19,7 @@ class LianaController extends Controller
      * @Method({"GET"})
      * @param string $modelName
      * @param int $recordId
+     * @return JsonResponse|Response
      */
     public function getResource($modelName, $recordId)
     {
@@ -29,9 +30,9 @@ class LianaController extends Controller
         } catch (CollectionNotFoundException $exc) {
             return new Response("Collection not found", 404);
         }
-        
+
         return new JsonResponse($resource);
-        
+
         //Trace
         return new Response($this->render('ForestBundle:Default:liana.html.twig', array(
             'resource' => $resource,
@@ -71,6 +72,7 @@ class LianaController extends Controller
      * @param string $modelName
      * @param int $recordId
      * @param string $associationName
+     * @return JsonResponse|Response
      */
     public function getHasMany($modelName, $recordId, $associationName)
     {
@@ -106,7 +108,7 @@ class LianaController extends Controller
             $resource = $liana->createResource($modelName, $postData);
 
             return new JsonResponse($resource);
-        } catch(\Exception $exc) {
+        } catch (\Exception $exc) {
             //if environment = dev
             return new Response($exc->getMessage(), 400);
             //else
@@ -131,7 +133,7 @@ class LianaController extends Controller
             $resource = $liana->updateResource($modelName, $recordId, $postData);
 
             return new JsonResponse($resource);
-        } catch(\Exception $exc) {
+        } catch (\Exception $exc) {
             //if environment = dev
             return new Response($exc->getMessage());
             //else
