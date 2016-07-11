@@ -62,7 +62,10 @@ class LianaService
      */
     public function listResources($modelName, $filter)
     {
+        $queryAdapter = $this->getQueryAdapter($modelName);
+        $resource = $queryAdapter->listResources($filter);
 
+        return $resource;
     }
 
     /**
