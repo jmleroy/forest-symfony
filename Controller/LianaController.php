@@ -2,6 +2,8 @@
 
 namespace ForestAdmin\ForestBundle\Controller;
 
+use ForestAdmin\Liana\Api\ResourceFilter;
+use ForestAdmin\Liana\Exception\CollectionNotFoundException;
 use ForestAdmin\Liana\Exception\NotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,6 +35,32 @@ class LianaController extends Controller
         //Trace
         return new Response($this->render('ForestBundle:Default:liana.html.twig', array(
             'resource' => $resource,
+        )));
+    }
+
+    /**
+     * @Route("/{modelName}", requirements={"modelName" = "\w+"})
+     * @Method({"GET"})
+     * @param string $modelName
+     * @param Request $request
+     * @return JsonResponse|Response
+     */
+    public function listResources($modelName, Request $request)
+    {
+        try {
+            $collections = $this->get('forestadmin.forest')->getCollections();
+            $liana = $this->get('forestadmin.liana')->setCollections($collections);
+            $filter = new ResourceFilter($request->query->all());
+            $resources = $liana->listResources($modelName, $filter);
+        } catch (CollectionNotFoundException $exc) {
+            return new Response("Collection not found", 404);
+        }
+
+        return new JsonResponse($resources);
+
+        //Trace
+        return new Response($this->render('ForestBundle:Default:liana.html.twig', array(
+            'resource' => $resources,
         )));
     }
 
