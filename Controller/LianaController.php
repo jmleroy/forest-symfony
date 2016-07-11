@@ -63,7 +63,7 @@ class LianaController extends Controller
     }
 
     /**
-     * @Route("/create/{modelName}", requirements={"modelName" = "\w+"})
+     * @Route("/{modelName}", requirements={"modelName" = "\w+"})
      * @Method({"POST"})
      * @param string $modelName
      * @param Request $request
@@ -87,7 +87,7 @@ class LianaController extends Controller
     }
 
     /**
-     * @Route("/update/{modelName}/{recordId}", requirements={"modelName" = "\w+", "recordId" = "\d+"})
+     * @Route("/{modelName}/{recordId}", requirements={"modelName" = "\w+", "recordId" = "\d+"})
      * @Method({"POST"})
      * @param string $modelName
      * @param int $recordId
