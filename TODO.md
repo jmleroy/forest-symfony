@@ -41,10 +41,10 @@ forestadmin_forest:
     type:      annotation
 ```
 
-## app/config/parameters.yml
+## app/config/config.yml
 
 Add:
 
 ```yaml
-    forestadmin.secret_key: "Your Secret Key"
+    forestadmin.forest.secret_key: "Your Secret Key"
 ```

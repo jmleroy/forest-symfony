@@ -42,3 +42,35 @@ class AppKernel extends Kernel
     // ...
 }
 ```
+
+Step 3: Configure Routes
+------------------------
+
+Add the route prefix to your routes by editing `app/config/routing.yml`:
+
+```yaml
+forestadmin_forest:
+    resource: '@ForestBundle/Controller/'
+    prefix:    /forest
+    type:      annotation
+```
+
+Step 4: Configure Secret Key
+----------------------------
+
+Generate a secret key for your application on http://forestadmin.com, then edit `app/config/config.yml`:
+
+```yaml
+    forestadmin.forest.secret_key: "Your Secret Key"
+```
+
+Step 5: Regenerate the cache and initialize Forest
+--------------------------------------------------
+
+This can be easily done by running the following console command:
+
+```
+$ php app/console cache:clear
+```
+
+By reinitializing the cache, you'll warmup the cache by analyzing your database structure based on the Doctrine metadata, and post the resulting map to Forest.
