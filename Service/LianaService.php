@@ -3,6 +3,7 @@
 namespace ForestAdmin\ForestBundle\Service;
 
 use ForestAdmin\Liana\Adapter\DoctrineAdapter;
+use ForestAdmin\Liana\Api\ResourceFilter;
 use ForestAdmin\Liana\Exception\CollectionNotFoundException;
 use ForestAdmin\Liana\Model\Collection;
 use ForestAdmin\Liana\Model\Resource as ForestResource;
@@ -182,12 +183,13 @@ class LianaService
     /**
      * @param string $modelName
      * @return DoctrineAdapter|null
+     * @throws CollectionNotFoundException
      */
     protected function getQueryAdapter($modelName)
     {
         $collection = $this->findCollection($modelName);
         if (!$collection) {
-            throw new CollectionNotFoundException;
+            throw new CollectionNotFoundException($modelName);
         }
         $entityName = $collection->getEntityClassName();
         $adapter = null;
