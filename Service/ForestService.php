@@ -14,7 +14,7 @@ use Symfony\Component\Filesystem\Filesystem;
 class ForestService
 {
     /**
-     * @var
+     * @var string
      */
     protected $cacheDir;
 
@@ -24,10 +24,10 @@ class ForestService
     protected $orm;
 
     /**
-     * @var
+     * @var ContainerInterface
      */
     protected $container;
-    
+
     public function __construct(ContainerInterface $container, $orm, $cacheDir)
     {
         $this->setContainer($container);
@@ -115,7 +115,7 @@ class ForestService
      */
     public function getCollections()
     {
-        if($this->areInCache('collections')) {
+        if ($this->areInCache('collections')) {
             $collections = $this->getFromCache('collections');
         } else {
             $collections = $this->getCollectionsFromAnalyzer();
