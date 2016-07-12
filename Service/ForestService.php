@@ -10,9 +10,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
-class ForestService 
+class ForestService
 {
     /**
      * @var
@@ -23,11 +22,65 @@ class ForestService
      * @var
      */
     protected $orm;
+
+    /**
+     * @var
+     */
+    protected $container;
     
-    public function __construct($orm, $cacheDir)
+    public function __construct(ContainerInterface $container, $orm, $cacheDir)
     {
+        $this->setContainer($container);
         $this->setOrm($orm);
         $this->setCacheDir($cacheDir);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOrm()
+    {
+        return $this->orm;
+    }
+
+    /**
+     * @param mixed $orm
+     */
+    public function setOrm($orm)
+    {
+        $this->orm = $orm;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCacheDir()
+    {
+        return $this->cacheDir;
+    }
+
+    /**
+     * @param string $cacheDir
+     */
+    public function setCacheDir($cacheDir)
+    {
+        $this->cacheDir = $cacheDir;
+    }
+
+    /**
+     * @return ContainerInterface
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * @param ContainerInterface $container
+     */
+    public function setContainer($container)
+    {
+        $this->container = $container;
     }
 
     public function postApimap()
@@ -164,53 +217,13 @@ class ForestService
         return $this->getCacheDir() . DIRECTORY_SEPARATOR . 'forestadmin' . DIRECTORY_SEPARATOR;
     }
 
-    /**
-     * TODO replace these values by configuration
-     */
     protected function getApimapUri()
     {
-        return "https://forestadmin-server.herokuapp.com/forest/apimaps";
-        //return $this->getContainer()->getParameter('forestadmin.apimap_server_uri');
+        return $this->getContainer()->getParameter('forestadmin.forest.apimap_server_uri');
     }
 
-    /**
-     * TODO replace these values by configuration
-     */
     protected function getSecretKey()
     {
-        return "0f4d2dca79f091173c009d3d1e365f3fe5ca465e26e960de6f539590cf6c1279";
-        //return $this->getContainer()->getParameter('forestadmin.secretkey');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOrm()
-    {
-        return $this->orm;
-    }
-
-    /**
-     * @param mixed $orm
-     */
-    public function setOrm($orm)
-    {
-        $this->orm = $orm;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCacheDir()
-    {
-        return $this->cacheDir;
-    }
-
-    /**
-     * @param mixed $cacheDir
-     */
-    public function setCacheDir($cacheDir)
-    {
-        $this->cacheDir = $cacheDir;
+        return $this->getContainer()->getParameter('forestadmin.forest.secret_key');
     }
 }
