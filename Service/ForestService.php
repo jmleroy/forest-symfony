@@ -92,8 +92,13 @@ class ForestService extends CacheWarmer
     public function warmUp($cacheDir)
     {
         $this->setCacheDir($cacheDir);
-        $this->saveCollectionsFromAnalyzerToCache();
-        $this->saveMetadataFromOrmToCache();
+
+        if (!$this->areInCache('collections')) {
+            $this->saveCollectionsFromAnalyzerToCache();
+        }
+        if (!$this->areInCache('metadata')) {
+            $this->saveMetadataFromOrmToCache();
+        }
     }
 
     /**
@@ -117,8 +122,17 @@ class ForestService extends CacheWarmer
         );
         $client = new Client;
         $request = new Request('POST', $this->getApimapUri(), $options);
-        $promise = $client->send($request);
-//        Async($request)->then(function ($response) {
+        $response = $client->send($request);
+
+        if ($response->getStatusCode() != 204) {
+            // TODO Should log something
+            return false;
+        }
+
+        return true;
+//        $promise = $client->send($request);
+//        Async($request)
+//            ->then(function ($response) {
 //            echo 'I completed! ' . $response->getBody();
 //        });
 //        $promise->wait();
