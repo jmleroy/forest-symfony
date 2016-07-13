@@ -8,10 +8,12 @@ use ForestAdmin\Liana\Api\Map;
 use ForestAdmin\Liana\Model\Collection as ForestCollection;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Exception\ClientException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmer;
 
-class ForestService
+class ForestService extends CacheWarmer
 {
     /**
      * @var string
@@ -81,6 +83,26 @@ class ForestService
     public function setContainer($container)
     {
         $this->container = $container;
+    }
+
+    /**
+     * Cache Warmer: every time the cache is cleared, this method is executed to warm up the application
+     * @param string $cacheDir
+     */
+    public function warmUp($cacheDir)
+    {
+        $this->setCacheDir($cacheDir);
+        $this->saveCollectionsFromAnalyzerToCache();
+        $this->saveMetadataFromOrmToCache();
+    }
+
+    /**
+     * Used by Cache Warmer
+     * @return bool
+     */
+    public function isOptional()
+    {
+        return true;
     }
 
     public function postApimap()
@@ -204,13 +226,12 @@ class ForestService
      */
     protected function saveInCache($what, $data)
     {
-        $fs = new Filesystem;
-
         $filename = $this->getCacheFilename($what);
-        $fs->mkdir(dirname($filename));
-        $fs->touch($filename);
+        if(!file_exists(dirname($filename))) {
+            (new Filesystem)->mkdir(dirname($filename));
+        }
 
-        return file_put_contents($filename, serialize($data));
+        return $this->writeCacheFile($filename, serialize($data));
     }
 
     /**

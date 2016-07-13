@@ -5,6 +5,8 @@ services:
             - "@service_container"
             - "@doctrine"
             - '%kernel.cache_dir%'
+        tags:
+            - { name: kernel.cache_warmer, priority: 0 }
     forestadmin.liana:
         class: ForestAdmin\ForestBundle\Service\LianaService
         arguments:
