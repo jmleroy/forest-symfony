@@ -118,8 +118,7 @@ class ForestService
         if ($this->areInCache('collections')) {
             $collections = $this->getFromCache('collections');
         } else {
-            $collections = $this->getCollectionsFromAnalyzer();
-            $this->saveInCache('collections', $collections);
+            $collections = $this->saveCollectionsFromAnalyzerToCache();
         }
 
         return $collections;
@@ -130,10 +129,30 @@ class ForestService
         if ($this->areInCache('metadata')) {
             $metadata = $this->getFromCache('metadata');
         } else {
-            $metadata = $this->getMetadataFromOrm();
-            $this->saveInCache('metadata', $metadata);
+            $metadata = $this->saveMetadataFromOrmToCache();
         }
 
+        return $metadata;
+    }
+
+    /**
+     * @return ForestCollection[]
+     */
+    public function saveCollectionsFromAnalyzerToCache()
+    {
+        $collections = $this->getCollectionsFromAnalyzer();
+        $this->saveInCache('collections', $collections);
+
+        return $collections;
+    }
+
+    /**
+     * @return \Doctrine\ORM\Mapping\ClassMetadata[]
+     */
+    public function saveMetadataFromOrmToCache()
+    {
+        $metadata = $this->getMetadataFromOrm();
+        $this->saveInCache('metadata', $metadata);
         return $metadata;
     }
 
