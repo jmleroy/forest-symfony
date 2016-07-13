@@ -5,7 +5,7 @@ namespace ForestAdmin\ForestBundle\Service;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use ForestAdmin\Liana\Analyzer\DoctrineAnalyzer;
 use ForestAdmin\Liana\Api\Map;
-use ForestAdmin\Liana\Model\Collection;
+use ForestAdmin\Liana\Model\Collection as ForestCollection;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -111,7 +111,7 @@ class ForestService
     }
 
     /**
-     * @return Collection[]
+     * @return ForestCollection[]
      */
     public function getCollections()
     {
@@ -138,7 +138,7 @@ class ForestService
     }
 
     /**
-     * @return Collection[]
+     * @return ForestCollection[]
      */
     protected function getCollectionsFromAnalyzer()
     {
