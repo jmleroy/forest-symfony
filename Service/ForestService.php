@@ -7,8 +7,8 @@ use ForestAdmin\Liana\Analyzer\DoctrineAnalyzer;
 use ForestAdmin\Liana\Api\Map;
 use ForestAdmin\Liana\Model\Collection as ForestCollection;
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Psr7\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmer;
@@ -99,6 +99,11 @@ class ForestService extends CacheWarmer
         if (!$this->areInCache('metadata')) {
             $this->saveMetadataFromOrmToCache();
         }
+        try {
+            $this->postApimap();
+        } catch(ClientException $exc) {
+            echo "postApimap returned the following error: ".$exc->getMessage()."\n";
+        }
     }
 
     /**
@@ -120,9 +125,8 @@ class ForestService extends CacheWarmer
             ),
             'body' => $map,
         );
-        $client = new Client;
-        $request = new Request('POST', $this->getApimapUri(), $options);
-        $response = $client->send($request);
+        $client = new Client();
+        $response = $client->request('POST', $this->getApimapUri(), $options);
 
         if ($response->getStatusCode() != 204) {
             // TODO Should log something
@@ -130,13 +134,6 @@ class ForestService extends CacheWarmer
         }
 
         return true;
-//        $promise = $client->send($request);
-//        Async($request)
-//            ->then(function ($response) {
-//            echo 'I completed! ' . $response->getBody();
-//        });
-//        $promise->wait();
-//        return new JsonResponse($promise);
     }
 
     public function getApimap()

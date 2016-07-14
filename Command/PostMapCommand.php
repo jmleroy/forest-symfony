@@ -2,6 +2,7 @@
 
 namespace ForestAdmin\ForestBundle\Command;
 
+use GuzzleHttp\Exception\RequestException;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,10 +40,14 @@ class PostMapCommand extends ContainerAwareCommand
                     $text = 'Failure!';
                 }
         } catch(ClientException $exc) {
-            $text = 'Failure: '.$exc->getMessage();
+            $text = 'Client Failure: ' . $exc->getMessage();
+        } catch(RequestException $exc) {
+            $text = 'Request Failure: ' . $exc->getMessage();
         } catch(InvalidArgumentException $exc) {
             $text = "Failure: ".$exc->getMessage()."\n"
             ."Configure your secret key with the key you received when you registered your app to Forest.";
+        } catch(\Exception $exc) {
+            $text = get_class($exc).' Failure: '.$exc->getMessage();
         }
 
         $output->writeln($text);
