@@ -57,7 +57,7 @@ class LianaController extends Controller
             return new Response("Collection not found", 404);
         }
 
-        return new JsonResponse($resource, 200, array(), true);
+        return new JsonResponse($resources, 200, array(), true);
 
         //Trace
         return new Response($this->render('ForestBundle:Default:liana.html.twig', array(
