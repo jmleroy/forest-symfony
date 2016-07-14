@@ -22,6 +22,7 @@ class ForestExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
         $container->setParameter('forestadmin.forest.secret_key', $config['secret_key']);
+        $container->setParameter('forestadmin.forest.auth_key', $config['auth_key']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('parameters.yml');
