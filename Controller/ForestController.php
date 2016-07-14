@@ -4,8 +4,11 @@ namespace ForestAdmin\ForestBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Security\Core\Encoder\BCryptPasswordEncoder;
 
 /**
  * Class ForestController
@@ -23,6 +26,36 @@ class ForestController extends Controller
         $response->setStatusCode(204);
 
         return $response;
+    }
+
+    /**
+     * @Route("/forest/sessions")
+     * @Method("POST")
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function sessionsAction(Request $request)
+    {
+        $data = json_decode($request->getContent());
+        $forest = $this->get('forestadmin.forest');
+
+        $allowedUsers = $forest->getAllowedUsers($data);
+
+        $currentUser = null;
+        foreach($allowedUsers as $user) {
+            if($user->email == $data->email && password_verify($data->password, $user->password)) {
+                $currentUser = $user;
+                break;
+            }
+        }
+
+        if($currentUser) {
+            $token = $forest->generateAuthToken($currentUser);
+            return new JsonResponse(array('token' => $token));
+        }
+
+        return new Response('Unauthorized', 401);
     }
 
     /**

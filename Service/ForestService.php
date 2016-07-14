@@ -8,7 +8,8 @@ use ForestAdmin\Liana\Api\Map;
 use ForestAdmin\Liana\Model\Collection as ForestCollection;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Psr7\Request;
+use Psecio\Jwt\Header as JwtHeader;
+use Psecio\Jwt\Jwt;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmer;
@@ -113,6 +114,47 @@ class ForestService extends CacheWarmer
     public function isOptional()
     {
         return true;
+    }
+
+    public function getAllowedUsers($data)
+    {
+        $renderingId = $data->renderingId;
+        
+        $uri = $this->getForestUri()."/forest/renderings/".$renderingId."/allowed-users";
+        $options = array(
+            'headers' => array(
+                'Content-Type' => 'application/json',
+                'forest-secret-key' => $this->getSecretKey(),
+            ),
+        );
+        $client = new Client();
+        $response = $client->request('GET', $uri, $options);
+        $response = json_decode($response->getBody());
+        $allowedUsers = array();
+        foreach($response->data as $res) {
+            $user = $res->attributes;
+            $user->id = $res->id;
+            $allowedUsers[] = $user;
+        }
+
+        return $allowedUsers;
+    }
+
+    public function generateAuthToken($user)
+    {
+        $header = new JwtHeader($this->getAuthKey());
+        $jwt = new Jwt($header);
+        $jwt->custom($this->getAuthOptions());
+        $jwt->issuer($this->getForestUri())
+            //->audience('http://example.com')
+            ->issuedAt(time())
+            ->notBefore(time()+60)
+            ->expireTime(time()+3600)
+            //->jwtId('id123456')
+            //->type('https://example.com/register')
+        ;
+
+        return $jwt->encode();
     }
 
     public function postApimap()
@@ -280,6 +322,18 @@ class ForestService extends CacheWarmer
     protected function getSecretKey()
     {
         return $this->getContainer()->getParameter('forestadmin.forest.secret_key');
+    }
+
+    protected function getAuthKey()
+    {
+        return $this->getContainer()->getParameter('forestadmin.forest.auth_key');
+    }
+
+    protected function getAuthOptions()
+    {
+        return array(
+            'foo' => 'bar',
+        );
     }
 
     protected function getApimapMeta()
