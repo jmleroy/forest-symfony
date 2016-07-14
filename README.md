@@ -1,3 +1,9 @@
+About
+=====
+
+The ForestBundle allows you to use the ForestAdmin application to manage your database entities. 
+If you don't know what ForestAdmin is, you can [follow this link](http://www.forestadmin.com)
+
 Installation
 ============
 
@@ -32,7 +38,6 @@ class AppKernel extends Kernel
     {
         $bundles = array(
             // ...
-
             new ForestAdmin\ForestBundle\ForestBundle(),
         );
 
@@ -58,14 +63,42 @@ forestadmin_forest:
 Step 4: Configure Secret Key
 ----------------------------
 
-Generate a secret key for your application on http://forestadmin.com, then edit `app/config/config.yml`:
+Generate a secret key for your application on http://forestadmin.com, 
+then edit `app/config/config.yml`:
 
 ```yaml
     forestadmin.forest.secret_key: "Your Secret Key"
 ```
 
-Step 5: Regenerate the cache and initialize Forest
---------------------------------------------------
+Step 5: Allow CORS Queries from ForestAdmin
+-------------------------------------------
+
+To allow Forest to test your installation successfully, you'll also need 
+to authorize it to do a Cross-Origin Resource Sharing (CORS) Query.
+If you don't know how it works, follow these instructions :
+
+First, install a CORS bundle, fore example NelmioCorsBundle :
+
+```
+$ composer install nelmio/cors-bundle
+```
+
+Then, edit your `app/config/config.yml` by adding the following lines:
+
+```yaml
+nelmio_cors:
+    paths:
+        '^/forest':
+            allow_origin: ["http://app.forestadmin.com", "https://app.forestadmin.com"]
+            allow_headers: ["*"]
+            allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
+```
+
+(WiP)
+
+
+Step 6: Regenerate the cache
+----------------------------
 
 This can be easily done by running the following console command:
 
@@ -73,4 +106,16 @@ This can be easily done by running the following console command:
 $ php app/console cache:clear
 ```
 
-By reinitializing the cache, you'll warmup the cache by analyzing your database structure based on the Doctrine metadata, and post the resulting map to Forest.
+The cache warmup triggers the analysis of your database structure based
+on the Doctrine metadata.
+
+Step 7: Initialize Forest API Map
+---------------------------------
+
+Finally, the following command will transmit the map of your database
+structure to ForestAdmin. Every time you need to update the structure,
+you will need to run this command again.
+
+```
+$ php app/console forest:postmap
+```
