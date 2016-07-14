@@ -150,7 +150,7 @@ class ForestService extends CacheWarmer
             ->issuedAt(time())
             ->notBefore(time()+60)
             ->expireTime(time()+3600)
-            //->jwtId('id123456')
+            ->jwtId($user->id)
             //->type('https://example.com/register')
         ;
 
