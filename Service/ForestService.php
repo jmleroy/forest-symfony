@@ -267,9 +267,14 @@ class ForestService extends CacheWarmer
         return $this->getCacheDir() . DIRECTORY_SEPARATOR . 'forestadmin' . DIRECTORY_SEPARATOR;
     }
 
+    protected function getForestUri()
+    {
+        return $this->getContainer()->getParameter('forestadmin.forest.uri.server');
+    }
+    
     protected function getApimapUri()
     {
-        return $this->getContainer()->getParameter('forestadmin.forest.apimap_server_uri');
+        return $this->getContainer()->getParameter('forestadmin.forest.uri.apimap');
     }
 
     protected function getSecretKey()
