@@ -28,7 +28,8 @@
         "doctrine/doctrine-bundle": "~1.4",
         "sensio/framework-extra-bundle": "~2.8|~3.0",
         "guzzlehttp/guzzle": "~6.0",
-        "jmleroy/forest-php": "dev-develop"
+        "jmleroy/forest-php": "dev-develop",
+        "lcobucci/jwt": "^3.1"
     },
     "require-dev": {
 
