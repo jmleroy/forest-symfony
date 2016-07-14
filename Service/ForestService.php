@@ -138,8 +138,7 @@ class ForestService extends CacheWarmer
 
     public function getApimap()
     {
-        $collections = $this->getCollections();
-        $map = new Map($collections);
+        $map = new Map($this->getCollections(), $this->getApimapMeta());
         return $map->getApimap();
     }
 
@@ -276,5 +275,13 @@ class ForestService extends CacheWarmer
     protected function getSecretKey()
     {
         return $this->getContainer()->getParameter('forestadmin.forest.secret_key');
+    }
+
+    protected function getApimapMeta()
+    {
+        return array(
+            'liana' => $this->getContainer()->getParameter('forestadmin.apimap.meta.liana'),
+            'liana_version' => $this->getContainer()->getParameter('forestadmin.apimap.meta.liana_version'),
+        );
     }
 }
