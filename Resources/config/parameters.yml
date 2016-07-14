@@ -1,6 +1,6 @@
 parameters:
     forestadmin.forest.uri.apimap: "https://forestadmin-server.herokuapp.com/forest/apimaps"
-    forestadmin.forest.uri.server": "https://forestadmin-server.herokuapp.com"
+    forestadmin.forest.uri.server: "https://forestadmin-server.herokuapp.com"
     forestadmin.apimap.meta.liana: "forest-symfony"
     forestadmin.apimap.meta.liana_version: "dev@develop"
     #TODO automatize version
