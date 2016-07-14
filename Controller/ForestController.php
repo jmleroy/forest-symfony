@@ -2,9 +2,6 @@
 
 namespace ForestAdmin\ForestBundle\Controller;
 
-use ForestAdmin\Liana\Api\Map;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +15,7 @@ class ForestController extends Controller
 {
     /**
      * This route is called by ForestAdmin to test if ForestBundle is properly installed
-     * @Route("/")
+     * @Route("/forest")
      */
     public function indexAction()
     {
@@ -30,7 +27,7 @@ class ForestController extends Controller
 
     /**
      * TODO to delete or use in dev only
-     * @Route("/post")
+     * @Route("/forest/post")
      */
     public function postAction()
     {
@@ -42,7 +39,7 @@ class ForestController extends Controller
 
     /**
      * TODO to delete or use in dev only
-     * @Route("/trace")
+     * @Route("/forest/trace")
      * @return JsonResponse
      */
     public function traceAction()
@@ -50,12 +47,12 @@ class ForestController extends Controller
         $forest = $this->get('forestadmin.forest');
         $apimap = $forest->getApimap();
 
-        return new JsonResponse($apimap);
+        return new Response($apimap);
     }
 
     /**
      * TODO to delete or use in dev only
-     * @Route("/dump")
+     * @Route("/forest/dump")
      * @return Response
      */
     public function dumpAction()

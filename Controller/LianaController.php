@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 class LianaController extends Controller
 {
     /**
-     * @Route("/{modelName}/{recordId}", requirements={"modelName" = "\w+", "recordId" = "\d+"})
+     * @Route("/forest/{modelName}/{recordId}", requirements={"modelName" = "\w+", "recordId" = "\d+"})
      * @Method({"GET"})
      * @param string $modelName
      * @param int $recordId
@@ -40,7 +40,7 @@ class LianaController extends Controller
     }
 
     /**
-     * @Route("/{modelName}", requirements={"modelName" = "\w+"})
+     * @Route("/forest/{modelName}", requirements={"modelName" = "\w+"})
      * @Method({"GET"})
      * @param string $modelName
      * @param Request $request
@@ -67,7 +67,7 @@ class LianaController extends Controller
 
 
     /**
-     * @Route("/{modelName}/{recordId}/{associationName}", requirements={"modelName" = "\w+", "recordId" = "\d+", "associationName" = "\w+"})
+     * @Route("/forest/{modelName}/{recordId}/{associationName}", requirements={"modelName" = "\w+", "recordId" = "\d+", "associationName" = "\w+"})
      * @Method({"GET"})
      * @param string $modelName
      * @param int $recordId
@@ -93,7 +93,7 @@ class LianaController extends Controller
     }
 
     /**
-     * @Route("/{modelName}", requirements={"modelName" = "\w+"})
+     * @Route("/forest/{modelName}", requirements={"modelName" = "\w+"})
      * @Method({"POST"})
      * @param string $modelName
      * @param Request $request
@@ -117,7 +117,7 @@ class LianaController extends Controller
     }
 
     /**
-     * @Route("/{modelName}/{recordId}", requirements={"modelName" = "\w+", "recordId" = "\d+"})
+     * @Route("/forest/{modelName}/{recordId}", requirements={"modelName" = "\w+", "recordId" = "\d+"})
      * @Method({"POST"})
      * @param string $modelName
      * @param int $recordId
