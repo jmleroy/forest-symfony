@@ -56,7 +56,6 @@ Add the route prefix to your routes by editing `app/config/routing.yml`:
 ```yaml
 forestadmin_forest:
     resource: '@ForestBundle/Controller/'
-    prefix:    /forest
     type:      annotation
 ```
 
