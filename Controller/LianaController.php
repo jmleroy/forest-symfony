@@ -31,7 +31,7 @@ class LianaController extends Controller
             return new Response("Collection not found", 404);
         }
 
-        return new JsonResponse($resource);
+        return new JsonResponse($resource, 200, array(), true);
 
         //Trace
         return new Response($this->render('ForestBundle:Default:liana.html.twig', array(
@@ -57,7 +57,7 @@ class LianaController extends Controller
             return new Response("Collection not found", 404);
         }
 
-        return new JsonResponse($resources);
+        return new JsonResponse($resource, 200, array(), true);
 
         //Trace
         return new Response($this->render('ForestBundle:Default:liana.html.twig', array(
@@ -84,7 +84,7 @@ class LianaController extends Controller
             return new Response($exc->getMessage(), 404);
         }
 
-        return new JsonResponse($resource);
+        return new JsonResponse($resource, 200, array(), true);
 
         //Trace
         return new Response($this->render('ForestBundle:Default:liana.html.twig', array(
@@ -107,7 +107,7 @@ class LianaController extends Controller
             $postData = $request->request->all();
             $resource = $liana->createResource($modelName, $postData);
 
-            return new JsonResponse($resource);
+            return new JsonResponse($resource, 200, array(), true);
         } catch (\Exception $exc) {
             //if environment = dev
             return new Response($exc->getMessage(), 400);
@@ -132,7 +132,7 @@ class LianaController extends Controller
             $postData = $request->request->all();
             $resource = $liana->updateResource($modelName, $recordId, $postData);
 
-            return new JsonResponse($resource);
+            return new JsonResponse($resource, 200, array(), true);
         } catch (\Exception $exc) {
             //if environment = dev
             return new Response($exc->getMessage());
