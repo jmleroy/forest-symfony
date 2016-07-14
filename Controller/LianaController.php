@@ -31,7 +31,7 @@ class LianaController extends Controller
             return new Response("Collection not found", 404);
         }
 
-        return new JsonResponse($resource, 200, array(), true);
+        return $this->returnJson($resource);
 
         //Trace
         return new Response($this->render('ForestBundle:Default:liana.html.twig', array(
@@ -57,7 +57,7 @@ class LianaController extends Controller
             return new Response("Collection not found", 404);
         }
 
-        return new JsonResponse($resources, 200, array(), true);
+        return $this->returnJson($resources);
 
         //Trace
         return new Response($this->render('ForestBundle:Default:liana.html.twig', array(
@@ -84,7 +84,7 @@ class LianaController extends Controller
             return new Response($exc->getMessage(), 404);
         }
 
-        return new JsonResponse($resource, 200, array(), true);
+        return $this->returnJson($resource);
 
         //Trace
         return new Response($this->render('ForestBundle:Default:liana.html.twig', array(
@@ -107,7 +107,7 @@ class LianaController extends Controller
             $postData = $request->request->all();
             $resource = $liana->createResource($modelName, $postData);
 
-            return new JsonResponse($resource, 200, array(), true);
+            return $this->returnJson($resource);
         } catch (\Exception $exc) {
             //if environment = dev
             return new Response($exc->getMessage(), 400);
@@ -132,12 +132,24 @@ class LianaController extends Controller
             $postData = $request->request->all();
             $resource = $liana->updateResource($modelName, $recordId, $postData);
 
-            return new JsonResponse($resource, 200, array(), true);
+            return $this->returnJson($resource);
         } catch (\Exception $exc) {
             //if environment = dev
             return new Response($exc->getMessage());
             //else
             //return new Response('Bad request', 400);
         }
+    }
+
+    protected function returnJson($resource)
+    {
+        $response = new JsonResponse($resource);
+        $response->setEncodingOptions(
+            JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT |
+            JSON_UNESCAPED_SLASHES |
+            JSON_UNESCAPED_UNICODE
+        );
+
+        return $response;
     }
 }
