@@ -22,11 +22,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->arrayNode('forest')
-                    ->children()
-                        ->scalarNode('secret_key')->end()
-                    ->end()
-                ->end()
+                ->scalarNode('secret_key')->end()
             ->end()
         ;
 

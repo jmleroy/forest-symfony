@@ -67,7 +67,8 @@ Generate a secret key for your application on http://forestadmin.com,
 then edit `app/config/config.yml`:
 
 ```yaml
-    forestadmin.forest.secret_key: "Your Secret Key"
+forest:
+    secret_key: "Your Secret Key"
 ```
 
 Step 5: Allow CORS Queries from ForestAdmin
