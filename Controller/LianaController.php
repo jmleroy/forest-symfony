@@ -32,11 +32,6 @@ class LianaController extends Controller
         }
 
         return $this->returnJson($resource);
-
-        //Trace
-        return new Response($this->render('ForestBundle:Default:liana.html.twig', array(
-            'resource' => $resource,
-        )));
     }
 
     /**
@@ -58,11 +53,6 @@ class LianaController extends Controller
         }
 
         return $this->returnJson($resources);
-
-        //Trace
-        return new Response($this->render('ForestBundle:Default:liana.html.twig', array(
-            'resource' => $resources,
-        )));
     }
 
 
@@ -85,11 +75,6 @@ class LianaController extends Controller
         }
 
         return $this->returnJson($resource);
-
-        //Trace
-        return new Response($this->render('ForestBundle:Default:liana.html.twig', array(
-            'resource' => $resource,
-        )));
     }
 
     /**
