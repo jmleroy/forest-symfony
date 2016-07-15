@@ -94,6 +94,14 @@ nelmio_cors:
             allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
 ```
 
+Finally, add your pass phrase to the Forest config :
+
+```yaml
+forest:
+    secret_key: "Your Secret Key"
+    auth_key: "PassPhrase to use as your Authorization Key"
+```
+
 (WiP)
 
 
@@ -107,15 +115,15 @@ $ php app/console cache:clear
 ```
 
 The cache warmup triggers the analysis of your database structure based
-on the Doctrine metadata.
+on the Doctrine metadata and sends the map that the Forest API will use.
 
-Step 7: Initialize Forest API Map
----------------------------------
-
-Finally, the following command will transmit the map of your database
-structure to ForestAdmin. Every time you need to update the structure,
+Anytime, you can inform Forest of changes made in your database schema.
+The following command will transmit the map of your database structure 
+to ForestAdmin. Every time you need to update the structure,
 you will need to run this command again.
 
 ```
 $ php app/console forest:postmap
 ```
+
+(WiP: should be triggered every time you do a doctrine:schema:update)
