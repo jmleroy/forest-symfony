@@ -73,8 +73,8 @@ forest:
 Step 5: Allow CORS Queries from ForestAdmin
 -------------------------------------------
 
-To allow Forest to test your installation successfully, you'll also need 
-to authorize it to do a Cross-Origin Resource Sharing (CORS) Query.
+To allow Forest to communicate successfully with your application, you'll
+also need to authorize it to do Cross-Origin Resource Sharing (CORS) Queries.
 If you don't know how it works, follow these instructions :
 
 First, install a CORS bundle, fore example NelmioCorsBundle :
@@ -118,12 +118,11 @@ The cache warmup triggers the analysis of your database structure based
 on the Doctrine metadata and sends the map that the Forest API will use.
 
 Anytime, you can inform Forest of changes made in your database schema.
-The following command will transmit the map of your database structure 
-to ForestAdmin. Every time you need to update the structure,
-you will need to run this command again.
+The following command will send the map of your database structure to
+ForestAdmin. Every time you need to update the structure, you will need
+to run this command again.
+(WiP: should be triggered every time you do a doctrine:schema:update)
 
 ```
 $ php app/console forest:postmap
 ```
-
-(WiP: should be triggered every time you do a doctrine:schema:update)
