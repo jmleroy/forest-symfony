@@ -129,13 +129,13 @@ class LianaController extends Controller
         try {
             $collections = $this->get('forestadmin.forest')->getCollections();
             $liana = $this->get('forestadmin.liana')->setCollections($collections);
-            $postData = $request->request->all();
-            $resource = $liana->updateResource($modelName, $recordId, $postData);
+            $attributes = $this->getAttributesFromJsonContent($request);
+            $resource = $liana->updateResource($modelName, $recordId, $attributes);
 
             return $this->returnJson($resource);
         } catch (\Exception $exc) {
             //if environment = dev
-            return new Response($exc->getMessage());
+            return new Response('Bad request: ' . $exc->getMessage(), 400);
             //else
             //return new Response('Bad request', 400);
         }
@@ -151,5 +151,21 @@ class LianaController extends Controller
         );
 
         return $response;
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     * @throws \Exception
+     */
+    protected function getAttributesFromJsonContent(Request $request)
+    {
+        $content = json_decode($request->getContent(), true);
+
+        if (!array_key_exists('data', $content) || !array_key_exists('attributes', $content['data'])) {
+            throw new \Exception("Malformed content");
+        }
+
+        return $content['data']['attributes'];
     }
 }
