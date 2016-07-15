@@ -118,7 +118,7 @@ class LianaController extends Controller
 
     /**
      * @Route("/forest/{modelName}/{recordId}", requirements={"modelName" = "\w+", "recordId" = "\d+"})
-     * @Method({"POST"})
+     * @Method({"PUT"})
      * @param string $modelName
      * @param int $recordId
      * @param Request $request
