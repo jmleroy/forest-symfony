@@ -70,6 +70,11 @@ forest:
     secret_key: "Your Secret Key"
 ```
 
+**Important notice**: Your secret key may depend on your environment by
+putting it in `app/config/config_(env).yml`, but you need to configure
+your web server to set your environment appropriately. Forest only accepts
+your server domain name and port in its configuration.
+
 Step 5: Allow CORS Queries from ForestAdmin
 -------------------------------------------
 
