@@ -104,8 +104,8 @@ class LianaController extends Controller
         try {
             $collections = $this->get('forestadmin.forest')->getCollections();
             $liana = $this->get('forestadmin.liana')->setCollections($collections);
-            $postData = $request->request->all();
-            $resource = $liana->createResource($modelName, $postData);
+            $attributes = $this->getAttributesFromJsonContent($request);
+            $resource = $liana->createResource($modelName, $attributes);
 
             return $this->returnJson($resource);
         } catch (\Exception $exc) {
