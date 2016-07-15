@@ -62,14 +62,16 @@ class LianaController extends Controller
      * @param string $modelName
      * @param int $recordId
      * @param string $associationName
+     * @param Request $request
      * @return JsonResponse|Response
      */
-    public function getHasMany($modelName, $recordId, $associationName)
+    public function getHasMany($modelName, $recordId, $associationName, Request $request)
     {
         try {
             $collections = $this->get('forestadmin.forest')->getCollections();
             $liana = $this->get('forestadmin.liana')->setCollections($collections);
-            $resource = $liana->getHasMany($modelName, $recordId, $associationName);
+            $filter = new ResourceFilter($request->query->all());
+            $resource = $liana->getHasMany($modelName, $recordId, $associationName, $filter);
         } catch (NotFoundException $exc) {
             return new Response($exc->getMessage(), 404);
         }
