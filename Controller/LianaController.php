@@ -89,8 +89,8 @@ class LianaController extends Controller
         try {
             $collections = $this->get('forestadmin.forest')->getCollections();
             $liana = $this->get('forestadmin.liana')->setCollections($collections);
-            $attributes = $this->getAttributesFromJsonContent($request);
-            $resource = $liana->createResource($modelName, $attributes);
+            $contentData = $this->getContentData($request);
+            $resource = $liana->createResource($modelName, $contentData);
 
             return $this->returnJson($resource);
         } catch (\Exception $exc) {
@@ -114,8 +114,8 @@ class LianaController extends Controller
         try {
             $collections = $this->get('forestadmin.forest')->getCollections();
             $liana = $this->get('forestadmin.liana')->setCollections($collections);
-            $attributes = $this->getAttributesFromJsonContent($request);
-            $resource = $liana->updateResource($modelName, $recordId, $attributes);
+            $contentData = $this->getContentData($request);
+            $resource = $liana->updateResource($modelName, $recordId, $contentData);
 
             return $this->returnJson($resource);
         } catch (\Exception $exc) {
@@ -143,7 +143,7 @@ class LianaController extends Controller
      * @return mixed
      * @throws \Exception
      */
-    protected function getAttributesFromJsonContent(Request $request)
+    protected function getContentData(Request $request)
     {
         $content = json_decode($request->getContent(), true);
 
@@ -151,6 +151,6 @@ class LianaController extends Controller
             throw new \Exception("Malformed content");
         }
 
-        return $content['data']['attributes'];
+        return $content;
     }
 }
