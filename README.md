@@ -21,6 +21,14 @@ This command requires you to have Composer installed globally, as explained
 in the [installation chapter](https://getcomposer.org/doc/00-intro.md)
 of the Composer documentation.
 
+**Important Notice**: Sandro, il faut d'abord enregistrer 
+`forestadmin/forest-symfony` sur http://packagist.org (ainsi que 
+`jmleroy/forest-php` qu'il te faut déménager sur `forestadmin/forest-php`).
+Ces deux repositories doivent être en accès public. 
+J'ai tout mergé sur la branche master, il faut la taguer en tant que
+version 0.1.0 pour que tout soit nickel. 
+
+
 Step 2: Enable the Bundle
 -------------------------
 
