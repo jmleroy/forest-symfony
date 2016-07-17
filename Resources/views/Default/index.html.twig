@@ -5,14 +5,12 @@
 </div>
 <div class="forest">
     {{ dump(metadata) }}
-    {{ dump(metadata['AppBundle_Entity_Billing']) }}
-    {{ dump(metadata['AppBundle_Entity_User']) }}
-    {{ dump(metadata['AppBundle_Entity_Professional']) }}
-    {{ dump(metadata['AppBundle_Entity_Skill']) }}
+    {{ dump(metadata['AppBundle_Entity_Operation']) }}
+    {{ dump(metadata['AppBundle_Entity_Location']) }}
     {{ dump(collections) }}
-    {{ dump(collections['Sonata\\ClassificationBundle\\Entity\\BaseCategory']) }}
-    {{ dump(collections['AppBundle\\Entity\\User']) }}
-    {{ dump(collections['AppBundle\\Entity\\Professional']) }}
-    {{ dump(collections['AppBundle\\Entity\\Professional'].getRelationships) }}
+    {{ dump(collections['AppBundle\\Entity\\Operation']) }}
+    {{ dump(collections['AppBundle\\Entity\\Location']) }}
+    {{ dump(collections['AppBundle\\Entity\\Operation'].getRelationships) }}
+    {{ dump(collections['AppBundle\\Entity\\Location'].getRelationships) }}
     {{ dump(apimap) }}
 </div>
