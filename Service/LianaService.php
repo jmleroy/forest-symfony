@@ -72,7 +72,7 @@ class LianaService
     /**
      * Returns the $associationName resources (hasMany relationship) of $modelName
      * @param string $modelName
-     * @param mixed $recordId
+     * @param string $recordId
      * @param string $associationName
      * @param ResourceFilter $filter
      * @return object The hasMany resources with its own relationships and a link to their many relationships
@@ -104,7 +104,7 @@ class LianaService
 
     /**
      * @param string $modelName
-     * @param mixed $recordId
+     * @param string $recordId
      * @param array $postData
      * @return array The updated resource
      */
