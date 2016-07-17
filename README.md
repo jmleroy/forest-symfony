@@ -14,7 +14,7 @@ Open a command console, enter your project directory and execute the
 following command to download the latest stable version of this bundle:
 
 ```bash
-$ composer require forestadmin/forest-symfony "~1"
+$ composer require forestadmin/forest-symfony
 ```
 
 This command requires you to have Composer installed globally, as explained
@@ -70,10 +70,14 @@ forest:
     secret_key: "Your Secret Key"
 ```
 
-**Important notice**: Your secret key may depend on your environment by
-putting it in `app/config/config_(env).yml`, but you need to configure
-your web server to set your environment appropriately. Forest only accepts
-your server domain name and port in its configuration.
+**Important notice**: Your secret key depends on your environment by
+putting it in `app/config/config_(env).yml`. However, you need to set up
+your environment appropriately.
+If you wish to use Forest with the dev environment of your application,
+you need to make changes in your `web/.htaccess` file and replace all
+instances of `app.php` by `app_dev.php`. Actually, Forest does not accept
+in its configuration to specify a path after your server domain name and
+port.
 
 Step 5: Allow CORS Queries from ForestAdmin
 -------------------------------------------
