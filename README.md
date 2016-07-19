@@ -51,7 +51,7 @@ class AppKernel extends Kernel
 Step 3: Configure Routes
 ------------------------
 
-Add the route prefix to your routes by editing `app/config/routing.yml`:
+Add the Forest controllers to your routes by appending the following lines to `app/config/routing.yml`:
 
 ```yaml
 forestadmin_forest:
