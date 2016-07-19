@@ -22,7 +22,7 @@
         "doctrine/doctrine-bundle": "~1.4",
         "sensio/framework-extra-bundle": "~2.8|~3.0",
         "guzzlehttp/guzzle": "~6.0",
-        "forestadmin/forest-php": "dev-master",
+        "forestadmin/forest-php": "~0.1",
         "psecio/jwt": "^1.7"
     },
     "require-dev": {
