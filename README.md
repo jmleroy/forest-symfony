@@ -31,7 +31,7 @@ If you do not know how it works, follow these instructions :
 First, install a CORS bundle, fore example NelmioCorsBundle :
 
 ```
-$ composer install nelmio/cors-bundle
+$ composer require nelmio/cors-bundle
 ```
 
 Then, edit your `app/config/config.yml` by adding the following lines:
