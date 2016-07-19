@@ -21,7 +21,31 @@ This command requires you to have Composer installed globally, as explained
 in the [installation chapter](https://getcomposer.org/doc/00-intro.md)
 of the Composer documentation.
 
-Step 2: Enable the Bundle
+Step 2: Allow CORS Queries from ForestAdmin
+-------------------------------------------
+
+To allow Forest to communicate successfully with your application, you will
+need to authorize it to do Cross-Origin Resource Sharing (CORS) Queries.
+If you do not know how it works, follow these instructions :
+
+First, install a CORS bundle, fore example NelmioCorsBundle :
+
+```
+$ composer install nelmio/cors-bundle
+```
+
+Then, edit your `app/config/config.yml` by adding the following lines:
+
+```yaml
+nelmio_cors:
+    paths:
+        '^/forest':
+            allow_origin: ["http://app.forestadmin.com", "https://app.forestadmin.com"]
+            allow_headers: ["*"]
+            allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
+```
+
+Step 3: Enable the Bundle
 -------------------------
 
 Then, enable the bundle by adding it to the list of registered bundles
@@ -48,10 +72,11 @@ class AppKernel extends Kernel
 }
 ```
 
-Step 3: Configure Routes
+Step 4: Configure Routes
 ------------------------
 
-Add the Forest controllers to your routes by appending the following lines to `app/config/routing.yml`:
+Add the Forest controllers to your routes by appending the following lines
+to `app/config/routing.yml`:
 
 ```yaml
 forestadmin_forest:
@@ -59,8 +84,8 @@ forestadmin_forest:
     type:      annotation
 ```
 
-Step 4: Configure Secret Key
-----------------------------
+Step 5: Configure Secret and Auth Key
+-------------------------------------
 
 Generate a secret key for your application on http://forestadmin.com, 
 then edit `app/config/config.yml`:
@@ -79,40 +104,13 @@ instances of `app.php` by `app_dev.php`. Actually, Forest does not accept
 in its configuration to specify a path after your server domain name and
 port.
 
-Step 5: Allow CORS Queries from ForestAdmin
--------------------------------------------
-
-To allow Forest to communicate successfully with your application, you'll
-also need to authorize it to do Cross-Origin Resource Sharing (CORS) Queries.
-If you don't know how it works, follow these instructions :
-
-First, install a CORS bundle, fore example NelmioCorsBundle :
-
-```
-$ composer install nelmio/cors-bundle
-```
-
-Then, edit your `app/config/config.yml` by adding the following lines:
-
-```yaml
-nelmio_cors:
-    paths:
-        '^/forest':
-            allow_origin: ["http://app.forestadmin.com", "https://app.forestadmin.com"]
-            allow_headers: ["*"]
-            allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
-```
-
-Finally, add your pass phrase to the Forest config :
+Also, add your pass phrase to the Forest config :
 
 ```yaml
 forest:
     secret_key: "Your Secret Key"
     auth_key: "PassPhrase to use as your Authorization Key"
 ```
-
-(WiP)
-
 
 Step 6: Regenerate the cache
 ----------------------------
@@ -130,7 +128,6 @@ Anytime, you can inform Forest of changes made in your database schema.
 The following command will send the map of your database structure to
 ForestAdmin. Every time you need to update the structure, you will need
 to run this command again.
-(WiP: should be triggered every time you do a doctrine:schema:update)
 
 ```
 $ php app/console forest:postmap
