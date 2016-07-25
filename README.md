@@ -26,15 +26,39 @@ Step 2: Allow CORS Queries from ForestAdmin
 
 To allow Forest to communicate successfully with your application, you will
 need to authorize it to do Cross-Origin Resource Sharing (CORS) Queries.
-If you do not know how it works, follow these instructions :
+If you do not know how it works, follow these instructions:
 
-First, install a CORS bundle, fore example NelmioCorsBundle :
+First, install a CORS bundle, for example NelmioCorsBundle:
 
 ```
 $ composer require nelmio/cors-bundle
 ```
 
-Then, edit your `app/config/config.yml` by adding the following lines:
+Then, enable the CORS bundle by adding it to the list of registered bundles
+in the `app/AppKernel.php` file of your project:
+
+```php
+<?php
+// app/AppKernel.php
+
+// ...
+class AppKernel extends Kernel
+{
+    public function registerBundles()
+    {
+        $bundles = array(
+            // ...
+            new Nelmio\CorsBundle\NelmioCorsBundle(),
+        );
+
+        // ...
+    }
+
+    // ...
+}
+```
+
+Finally, edit your `app/config/config.yml` by adding the following lines:
 
 ```yaml
 nelmio_cors:
@@ -104,7 +128,7 @@ instances of `app.php` by `app_dev.php`. Actually, Forest does not accept
 in its configuration to specify a path after your server domain name and
 port.
 
-Also, add your pass phrase to the Forest config :
+Also, add your pass phrase to the Forest config:
 
 ```yaml
 forest:
@@ -119,6 +143,10 @@ This can be easily done by running the following console command:
 
 ```
 $ php app/console cache:clear
+
+OR
+
+$ php app/console cache:warmup
 ```
 
 The cache warmup triggers the analysis of your database structure based
