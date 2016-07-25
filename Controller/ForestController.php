@@ -59,8 +59,8 @@ class ForestController extends Controller
     }
 
     /**
-     * TODO to delete or use in dev only
-     * @Route("/forest/post")
+     * Route disabled. You can enable it by fixing annotation
+     * @ Route("/forest/post")
      */
     public function postAction()
     {
@@ -71,8 +71,8 @@ class ForestController extends Controller
     }
 
     /**
-     * TODO to delete or use in dev only
-     * @Route("/forest/trace")
+     * Route disabled. You can enable it by fixing annotation
+     * @ Route("/forest/trace")
      * @return JsonResponse
      */
     public function traceAction()
@@ -84,8 +84,8 @@ class ForestController extends Controller
     }
 
     /**
-     * TODO to delete or use in dev only
-     * @Route("/forest/dump")
+     * Route disabled. You can enable it by fixing annotation
+     * @ Route("/forest/dump")
      * @return Response
      */
     public function dumpAction()
